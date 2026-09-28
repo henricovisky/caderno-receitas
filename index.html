@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Caderno de Receitas - Assistido por Hermes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        culinary: {
+                            50: '#fffaf5',
+                            100: '#feeddc',
+                            200: '#fed7b8',
+                            500: '#ea580c',
+                            600: '#c2410c',
+                            700: '#9a3412',
+                            900: '#431407',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1ede8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4c5b9;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ea580c;
+        }
+        .recipe-checkbox:checked + label {
+            text-decoration: line-through;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-[#FAF7F2] text-stone-800 font-sans min-h-screen flex flex-col antialiased selection:bg-orange-200">
+
+    <!-- Toast Notification container -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-30 bg-[#FAF7F2]/90 backdrop-blur-md border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-lg shadow-orange-600/20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-serif text-2xl font-bold tracking-tight text-stone-900 leading-none">Minhas Receitas</h1>
+                    <div class="flex items-center gap-1.5 mt-1 text-xs font-medium text-stone-500">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span>
+                        <span>Alimentado via Hermes no Telegram</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- Hermes Agent Bot Guide Modal Trigger -->
+                <button onclick="openHermesGuideModal()" class="px-3.5 py-2.5 rounded-xl border border-stone-300 hover:border-orange-500 text-stone-700 hover:text-orange-600 bg-white shadow-sm hover:shadow transition-all text-sm font-semibold flex items-center gap-2">
+                    <span class="text-base">🤖</span>
+                    <span class="hidden md:inline">Como Funciona</span>
+                </button>
+
+                <!-- Telegram Integration Info Badge / Trigger -->
+                <button onclick="openTelegramModal()" class="px-4 py-2.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white shadow-md shadow-orange-600/20 hover:shadow-lg transition-all text-sm font-semibold flex items-center gap-2">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+                    </svg>
+                    <span>Adicionar via Telegram</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full flex flex-col gap-8">
+
+        <!-- Stats / Overview bar -->
+        <section class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-stone-400">Total</p>
+                    <h3 id="stat-total" class="text-2xl font-bold text-stone-900 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-lg">📖</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-stone-400">Já Feitas</p>
+                    <h3 id="stat-cooked" class="text-2xl font-bold text-emerald-600 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-lg">✅</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-stone-400">Na Fila</p>
+                    <h3 id="stat-todo" class="text-2xl font-bold text-amber-600 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-lg">⏳</div>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-stone-200 shadow-sm flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-stone-400">Favoritas (5 ⭐)</p>
+                    <h3 id="stat-starred" class="text-2xl font-bold text-yellow-600 mt-0.5">0</h3>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-yellow-50 text-yellow-500 flex items-center justify-center font-bold text-lg">⭐</div>
+            </div>
+        </section>
+
+        <!-- Filter and Search Bar -->
+        <section class="bg-white p-5 rounded-2xl border border-stone-200 shadow-sm flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between">
+
+            <!-- Category Tabs -->
+            <div class="flex items-center overflow-x-auto pb-2 lg:pb-0 gap-1.5 scrollbar-none">
+                <button onclick="setCategoryFilter('all')" data-cat="all" class="cat-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-900 text-white shadow-sm whitespace-nowrap transition-all">
+                    Todas as Categorias
+                </button>
+                <button onclick="setCategoryFilter('refeicao')" data-cat="refeicao" class="cat-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 hover:bg-stone-200 text-stone-700 whitespace-nowrap transition-all flex items-center gap-1.5">
+                    <span>🍲</span> Refeição
+                </button>
+                <button onclick="setCategoryFilter('lanche')" data-cat="lanche" class="cat-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 hover:bg-stone-200 text-stone-700 whitespace-nowrap transition-all flex items-center gap-1.5">
+                    <span>🥪</span> Lanches
+                </button>
+                <button onclick="setCategoryFilter('sobremesa')" data-cat="sobremesa" class="cat-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-100 hover:bg-stone-200 text-stone-700 whitespace-nowrap transition-all flex items-center gap-1.5">
+                    <span>🍰</span> Sobremesas
+                </button>
+            </div>
+
+            <!-- Controls: Status, Star, Search -->
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
+
+                <!-- Status Filter: Feitas / Não feitas -->
+                <div class="relative min-w-[130px] flex-1 sm:flex-initial">
+                    <select id="statusFilter" onchange="applyFilters()" class="w-full text-xs sm:text-sm appearance-none bg-stone-50 border border-stone-200 text-stone-700 py-2.5 pl-3 pr-8 rounded-xl font-medium focus:ring-2 focus:ring-orange-500 focus:outline-none cursor-pointer">
+                        <option value="all">Status: Todos</option>
+                        <option value="cooked">✅ Já Feitas</option>
+                        <option value="todo">⏳ Na Fila (A Fazer)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-stone-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Star Rating Filter -->
+                <div class="relative min-w-[120px] flex-1 sm:flex-initial">
+                    <select id="ratingFilter" onchange="applyFilters()" class="w-full text-xs sm:text-sm appearance-none bg-stone-50 border border-stone-200 text-stone-700 py-2.5 pl-3 pr-8 rounded-xl font-medium focus:ring-2 focus:ring-orange-500 focus:outline-none cursor-pointer">
+                        <option value="all">Estrelas: Todas</option>
+                        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                        <option value="4">⭐⭐⭐⭐ (4+)</option>
+                        <option value="3">⭐⭐⭐ (3+)</option>
+                        <option value="0">Sem avaliação</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-stone-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Search Input -->
+                <div class="relative w-full sm:w-64">
+                    <input type="text" id="searchInput" oninput="applyFilters()" placeholder="Buscar receita ou ingrediente..." class="w-full text-xs sm:text-sm bg-stone-50 border border-stone-200 py-2.5 pl-9 pr-3 rounded-xl focus:ring-2 focus:ring-orange-500 focus:outline-none placeholder:text-stone-400">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Recipe Cards Grid -->
+        <section id="recipesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards rendered dynamically via JavaScript -->
+        </section>
+
+        <!-- Empty State (hidden by default) -->
+        <div id="emptyState" class="hidden flex-col items-center justify-center text-center py-16 px-4 bg-white rounded-3xl border border-stone-200">
+            <div class="w-20 h-20 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center text-3xl mb-4">
+                🍳
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-stone-800">Nenhuma receita encontrada</h3>
+            <p class="text-stone-500 max-w-md mt-2 text-sm">
+                Envie o link ou texto da receita para o Hermes no Telegram para que ela apareça automaticamente aqui!
+            </p>
+            <button onclick="openTelegramModal()" class="mt-6 px-5 py-2.5 bg-orange-600 text-white rounded-xl font-semibold text-sm hover:bg-orange-700 shadow-md">
+                Como enviar no Telegram
+            </button>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-stone-200 bg-white py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-stone-400 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>Caderno de Receitas Pessoal • Gerenciado por Hermes Agent</p>
+            <div class="flex items-center gap-4">
+                <button onclick="exportRecipesJSON()" class="hover:text-stone-700 underline font-medium">Exportar Backup (.json)</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 1: RECIPE DETAILS MODAL -->
+    <div id="recipeDetailModal" class="fixed inset-0 z-50 hidden bg-stone-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-stone-200 max-h-[90vh] flex flex-col overflow-hidden my-auto">
+
+            <!-- Header bar -->
+            <div class="p-6 border-b border-stone-100 flex items-start justify-between gap-4 bg-[#FAF7F2]">
+                <div class="space-y-1.5 flex-1">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="detailCategoryBadge" class="text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wide"></span>
+                        <span id="detailCookedBadge" class="text-xs px-2.5 py-1 rounded-full font-bold"></span>
+                        <div id="detailStarDisplay" class="flex text-amber-400 text-sm"></div>
+                    </div>
+                    <h2 id="detailTitle" class="font-serif text-2xl sm:text-3xl font-bold text-stone-900 leading-tight"></h2>
+                    <div class="flex flex-wrap items-center gap-4 text-xs font-medium text-stone-500 pt-1">
+                        <span id="detailPrepTime" class="flex items-center gap-1">⏱️ --</span>
+                        <span id="detailServings" class="flex items-center gap-1">🍽️ --</span>
+                        <a id="detailSourceLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden text-orange-600 hover:text-orange-700 underline flex items-center gap-1 font-semibold">
+                            🔗 Ver Fonte Original
+                        </a>
+                    </div>
+                </div>
+                <button onclick="closeModal('recipeDetailModal')" class="p-2 rounded-full text-stone-400 hover:text-stone-700 hover:bg-stone-200/60 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm text-stone-700">
+
+                <!-- My Notes & Personal Review Section -->
+                <div class="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h4 class="font-bold text-stone-900 flex items-center gap-2 text-sm">
+                            <span>📝</span> Comentários & Notas Pessoais
+                        </h4>
+                    </div>
+                    <p id="detailNotesDisplay" class="text-sm text-stone-800 italic bg-white/80 p-3 rounded-xl border border-amber-200/60"></p>
+                </div>
+
+                <!-- Ingredients list with interactive checkboxes (Modo Cozinha) -->
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="font-serif text-lg font-bold text-stone-900 flex items-center gap-2">
+                            <span>🥕</span> Ingredientes (Modo Cozinha)
+                        </h4>
+                        <span class="text-xs text-stone-400">Marque enquanto prepara</span>
+                    </div>
+                    <ul id="detailIngredientsList" class="space-y-2 bg-stone-50/70 p-4 rounded-2xl border border-stone-200">
+                        <!-- Dynamic ingredients -->
+                    </ul>
+                </div>
+
+                <!-- Preparation Steps -->
+                <div>
+                    <h4 class="font-serif text-lg font-bold text-stone-900 flex items-center gap-2 mb-3">
+                        <span>👩🍳</span> Modo de Preparo
+                    </h4>
+                    <ol id="detailInstructionsList" class="space-y-3">
+                        <!-- Dynamic instructions -->
+                    </ol>
+                </div>
+
+            </div>
+
+            <!-- Footer actions -->
+            <div class="p-4 border-t border-stone-200 bg-stone-50 flex items-center justify-between gap-3">
+                <button id="toggleCookedBtn" onclick="toggleCookedStatusFromDetail()" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition">
+                    <!-- Text & icon injected dynamically -->
+                </button>
+                <button onclick="closeModal('recipeDetailModal')" class="px-4 py-2.5 bg-stone-200 hover:bg-stone-300 rounded-xl font-semibold text-xs sm:text-sm text-stone-700 transition">
+                    Fechar
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 2: INSTRUCTIONS & CLASSIFICATION RULES -->
+    <div id="hermesGuideModal" class="fixed inset-0 z-50 hidden bg-stone-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-stone-200 max-h-[92vh] flex flex-col overflow-hidden my-auto">
+
+            <div class="p-5 border-b border-stone-100 flex items-center justify-between bg-stone-900 text-white">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center text-xl">
+                        🤖
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold">Regras do Caderno de Receitas</h3>
+                        <p class="text-xs text-stone-400">Classificação inteligente operada pelo Hermes</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('hermesGuideModal')" class="p-2 rounded-full text-stone-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-6 flex-1 text-sm text-stone-700 leading-relaxed">
+                <div>
+                    <h4 class="font-serif font-bold text-base text-stone-900 mb-2 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">1</span>
+                        Regras de Classificação Automática
+                    </h4>
+                    <ul class="space-y-2 text-xs text-stone-600">
+                        <li class="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                            <strong>category:</strong> Rigorosamente <code class="bg-orange-100 text-orange-800 px-1 py-0.5 rounded font-mono">refeicao</code> (almoço/jantar), <code class="bg-amber-100 text-amber-800 px-1 py-0.5 rounded font-mono">lanche</code> (pães, salgados, cafés) ou <code class="bg-pink-100 text-pink-800 px-1 py-0.5 rounded font-mono">sobremesa</code> (doces, bolos, tortas).
+                        </li>
+                        <li class="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                            <strong>isCooked:</strong> Padrão é <code class="font-mono">false</code>. Se você disser <em>"acabei de fazer"</em> ou <em>"ficou ótima"</em>, ele define como <code class="font-mono text-emerald-700">true</code>.
+                        </li>
+                        <li class="p-3 bg-stone-50 rounded-xl border border-stone-200">
+                            <strong>rating:</strong> Se você disser <em>"dou nota 5"</em>, ele grava 5 estrelas. Caso contrário, define 0 (sem avaliação).
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-serif font-bold text-base text-stone-900 mb-2 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">2</span>
+                        Exemplo de Mensagem no Telegram
+                    </h4>
+                    <div class="p-4 bg-stone-900 text-stone-200 rounded-2xl font-mono text-xs leading-relaxed">
+                        "Hermes, guarda essa receita: https://instagram.com/p/... acabei de fazer e ficou ótima, dou nota 5! Adicionei uma colher de chimichurri a mais."
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 border-t border-stone-200 bg-stone-50 flex justify-end">
+                <button onclick="closeModal('hermesGuideModal')" class="px-5 py-2 bg-stone-900 text-white rounded-xl font-semibold text-xs">
+                    Entendido
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL 3: TELEGRAM INFO MODAL -->
+    <div id="telegramModal" class="fixed inset-0 z-50 hidden bg-stone-950/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+        <div class="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-stone-200 max-h-[92vh] flex flex-col overflow-hidden my-auto text-center p-6">
+            <div class="w-16 h-16 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-3xl mx-auto mb-4">
+                📱
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-stone-900">Adicionar via Telegram</h3>
+            <p class="text-xs text-stone-500 mt-2 leading-relaxed">
+                Este caderno é alimentado <strong>exclusivamente por você através do Telegram com o Hermes</strong>.
+            </p>
+            <div class="bg-stone-50 border border-stone-200 rounded-2xl p-4 text-xs text-left text-stone-700 mt-4 space-y-2">
+                <p><strong>1.</strong> Copie o link (Instagram, TikTok, YouTube) ou o texto da receita.</p>
+                <p><strong>2.</strong> Envie para mim no Telegram com suas observações (ex: <em>"Hermes, guarda essa receita..."</em>).</p>
+                <p><strong>3.</strong> Eu analiso os ingredientes, padronizo o preparo e publico direto aqui!</p>
+            </div>
+            <button onclick="closeModal('telegramModal')" class="mt-6 px-5 py-2.5 bg-stone-900 hover:bg-stone-800 text-white rounded-xl font-semibold text-xs shadow-md transition">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'hermes_caderno_receitas_v1';
+        let recipes = [];
+        let currentFilter = {
+            category: 'all',
+            status: 'all',
+            rating: 'all',
+            search: ''
+        };
+        let activeDetailRecipeId = null;
+
+        async function initApp() {
+            await loadRecipes();
+            renderRecipes();
+            updateStats();
+        }
+
+        async function loadRecipes() {
+            try {
+                // Try fetching recipes.json from the repository
+                const res = await fetch('receitas.json?v=' + Date.now());
+                if (res.ok) {
+                    recipes = await res.json();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
+                    return;
+                }
+            } catch (e) {
+                console.warn("fetch receitas.json falhou, usando localStorage", e);
+            }
+
+            // Fallback to localStorage
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                try {
+                    recipes = JSON.parse(stored);
+                } catch (e) {
+                    recipes = [];
+                }
+            }
+        }
+
+        function updateStats() {
+            const total = recipes.length;
+            const cooked = recipes.filter(r => r.isCooked).length;
+            const todo = total - cooked;
+            const starred = recipes.filter(r => Number(r.rating) === 5).length;
+
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-cooked').textContent = cooked;
+            document.getElementById('stat-todo').textContent = todo;
+            document.getElementById('stat-starred').textContent = starred;
+        }
+
+        function setCategoryFilter(cat) {
+            currentFilter.category = cat;
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.classList.remove('bg-stone-100', 'text-stone-700');
+                    btn.classList.add('bg-stone-900', 'text-white');
+                } else {
+                    btn.classList.remove('bg-stone-900', 'text-white');
+                    btn.classList.add('bg-stone-100', 'text-stone-700');
+                }
+            });
+            applyFilters();
+        }
+
+        function applyFilters() {
+            currentFilter.status = document.getElementById('statusFilter').value;
+            currentFilter.rating = document.getElementById('ratingFilter').value;
+            currentFilter.search = document.getElementById('searchInput').value.trim().toLowerCase();
+            renderRecipes();
+        }
+
+        function getFilteredRecipes() {
+            return recipes.filter(recipe => {
+                if (currentFilter.category !== 'all' && recipe.category !== currentFilter.category) {
+                    return false;
+                }
+                if (currentFilter.status === 'cooked' && !recipe.isCooked) return false;
+                if (currentFilter.status === 'todo' && recipe.isCooked) return false;
+
+                if (currentFilter.rating === '5' && Number(recipe.rating) !== 5) return false;
+                if (currentFilter.rating === '4' && Number(recipe.rating) < 4) return false;
+                if (currentFilter.rating === '3' && Number(recipe.rating) < 3) return false;
+                if (currentFilter.rating === '0' && Number(recipe.rating) > 0) return false;
+
+                if (currentFilter.search) {
+                    const q = currentFilter.search;
+                    const inTitle = (recipe.title || '').toLowerCase().includes(q);
+                    const inNotes = (recipe.myNotes || '').toLowerCase().includes(q);
+                    const inIngredients = (recipe.ingredients || []).some(i => i.toLowerCase().includes(q));
+                    if (!inTitle && !inNotes && !inIngredients) return false;
+                }
+                return true;
+            });
+        }
+
+        function renderRecipes() {
+            const container = document.getElementById('recipesContainer');
+            const emptyState = document.getElementById('emptyState');
+            const filtered = getFilteredRecipes();
+
+            if (filtered.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.classList.add('flex');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.classList.remove('flex');
+
+            const categoryConfigs = {
+                refeicao: { name: 'Refeição', bg: 'bg-emerald-50', text: 'text-emerald-700', icon: '🍲' },
+                lanche: { name: 'Lanche', bg: 'bg-amber-50', text: 'text-amber-700', icon: '🥪' },
+                sobremesa: { name: 'Sobremesa', bg: 'bg-pink-50', text: 'text-pink-700', icon: '🍰' }
+            };
+
+            container.innerHTML = filtered.map(recipe => {
+                const cat = categoryConfigs[recipe.category] || categoryConfigs.refeicao;
+                const starCount = Number(recipe.rating) || 0;
+
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    starsHtml += `<span class="${i <= starCount ? 'text-amber-400' : 'text-stone-200'}">★</span>`;
+                }
+
+                const cookedBadge = recipe.isCooked
+                    ? `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-100/80 text-emerald-800 border border-emerald-200">
+                        <span>✅</span> Já Fiz
+                       </span>`
+                    : `<span class="inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-full bg-amber-100/70 text-amber-800 border border-amber-200">
+                        <span>⏳</span> Na Fila
+                       </span>`;
+
+                return `
+                <article class="bg-white rounded-3xl border border-stone-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="inline-flex items-center gap-1 text-xs font-bold px-3 py-1 rounded-full ${cat.bg} ${cat.text}">
+                                <span>${cat.icon}</span> ${cat.name}
+                            </span>
+                            ${cookedBadge}
+                        </div>
+
+                        <h3 onclick="openRecipeDetailModal('${recipe.id}')" class="font-serif text-xl font-bold text-stone-900 group-hover:text-orange-600 cursor-pointer transition-colors line-clamp-2 leading-snug">
+                            ${escapeHtml(recipe.title)}
+                        </h3>
+
+                        <div class="flex items-center gap-3 text-xs text-stone-400 mt-2 font-medium">
+                            <span class="flex items-center gap-1">⏱️ ${escapeHtml(recipe.prepTime || 'N/A')}</span>
+                            <span>•</span>
+                            <span class="flex items-center gap-1">🍽️ ${escapeHtml(recipe.servings || 'N/A')}</span>
+                        </div>
+
+                        <div class="flex items-center gap-1 text-base mt-3">
+                            ${starsHtml}
+                            <span class="text-xs text-stone-400 font-medium ml-1">
+                                ${starCount > 0 ? `(${starCount}/5)` : '(Não avaliado)'}
+                            </span>
+                        </div>
+
+                        ${recipe.myNotes ? `
+                            <div class="mt-4 p-3 rounded-2xl bg-amber-50/60 border border-amber-200/60 text-xs text-stone-600 line-clamp-2">
+                                <span class="font-semibold text-amber-800">Nota:</span> "${escapeHtml(recipe.myNotes)}"
+                            </div>
+                        ` : ''}
+
+                        <p class="text-xs text-stone-400 mt-4">
+                            🥕 <b>${(recipe.ingredients || []).length}</b> ingredientes listados
+                        </p>
+                    </div>
+
+                    <div class="px-6 py-3.5 bg-stone-50/80 border-t border-stone-100 flex items-center justify-between text-xs font-semibold">
+                        <button onclick="toggleCookedStatus('${recipe.id}')" class="text-stone-600 hover:text-stone-900 transition flex items-center gap-1.5">
+                            ${recipe.isCooked ? '↺ Marcar Na Fila' : '✓ Marcar como Feita'}
+                        </button>
+                        <button onclick="openRecipeDetailModal('${recipe.id}')" class="text-orange-600 hover:text-orange-700 font-bold flex items-center gap-1">
+                            Ver Modo Cozinha →
+                        </button>
+                    </div>
+                </article>
+                `;
+            }).join('');
+        }
+
+        function openRecipeDetailModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            activeDetailRecipeId = id;
+            document.getElementById('detailTitle').textContent = recipe.title;
+
+            const catMap = {
+                refeicao: { text: '🍲 Refeição', class: 'bg-emerald-100 text-emerald-800' },
+                lanche: { text: '🥪 Lanche', class: 'bg-amber-100 text-amber-800' },
+                sobremesa: { text: '🍰 Sobremesa', class: 'bg-pink-100 text-pink-800' }
+            };
+            const catData = catMap[recipe.category] || catMap.refeicao;
+            const catBadge = document.getElementById('detailCategoryBadge');
+            catBadge.className = `text-xs px-2.5 py-1 rounded-full font-bold uppercase tracking-wide ${catData.class}`;
+            catBadge.textContent = catData.text;
+
+            const cookedBadge = document.getElementById('detailCookedBadge');
+            if (recipe.isCooked) {
+                cookedBadge.className = 'text-xs px-2.5 py-1 rounded-full font-bold bg-emerald-100 text-emerald-800';
+                cookedBadge.textContent = '✅ Feita';
+            } else {
+                cookedBadge.className = 'text-xs px-2.5 py-1 rounded-full font-bold bg-amber-100 text-amber-800';
+                cookedBadge.textContent = '⏳ Na Fila';
+            }
+
+            document.getElementById('detailPrepTime').textContent = `⏱️ ${recipe.prepTime || 'N/A'}`;
+            document.getElementById('detailServings').textContent = `🍽️ ${recipe.servings || 'N/A'}`;
+
+            const linkEl = document.getElementById('detailSourceLink');
+            if (recipe.sourceUrl && recipe.sourceUrl.startsWith('http')) {
+                linkEl.href = recipe.sourceUrl;
+                linkEl.classList.remove('hidden');
+            } else {
+                linkEl.classList.add('hidden');
+            }
+
+            const notesEl = document.getElementById('detailNotesDisplay');
+            notesEl.textContent = recipe.myNotes ? `"${recipe.myNotes}"` : 'Nenhuma observação informada.';
+
+            // Header stars
+            let displayHtml = '';
+            const rating = Number(recipe.rating) || 0;
+            for (let i = 1; i <= 5; i++) {
+                displayHtml += `<span class="${i <= rating ? 'text-amber-400' : 'text-stone-300'}">★</span>`;
+            }
+            document.getElementById('detailStarDisplay').innerHTML = displayHtml;
+
+            // Ingredients checklist (Modo Cozinha)
+            const ingredientsContainer = document.getElementById('detailIngredientsList');
+            ingredientsContainer.innerHTML = (recipe.ingredients || []).map((ing, idx) => `
+                <li class="flex items-start gap-2.5 py-1">
+                    <input type="checkbox" id="ing_${idx}" class="recipe-checkbox mt-1 w-4 h-4 rounded text-orange-600 focus:ring-orange-500 cursor-pointer">
+                    <label for="ing_${idx}" class="text-stone-700 leading-snug cursor-pointer select-none">
+                        ${escapeHtml(ing)}
+                    </label>
+                </li>
+            `).join('');
+
+            // Instructions steps
+            const instructionsContainer = document.getElementById('detailInstructionsList');
+            instructionsContainer.innerHTML = (recipe.instructions || []).map((step, idx) => `
+                <li class="flex items-start gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-100 hover:border-orange-200 transition">
+                    <span class="w-6 h-6 rounded-full bg-orange-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                        ${idx + 1}
+                    </span>
+                    <p class="text-stone-800 leading-relaxed text-sm">${escapeHtml(step)}</p>
+                </li>
+            `).join('');
+
+            // Footer Cooked Button
+            const toggleCookedBtn = document.getElementById('toggleCookedBtn');
+            if (recipe.isCooked) {
+                toggleCookedBtn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 bg-stone-200 hover:bg-stone-300 text-stone-800 transition';
+                toggleCookedBtn.innerHTML = '<span>↺</span> Marcar como Na Fila';
+            } else {
+                toggleCookedBtn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition';
+                toggleCookedBtn.innerHTML = '<span>✅</span> Marcar como Já Fiz!';
+            }
+
+            openModal('recipeDetailModal');
+        }
+
+        function toggleCookedStatus(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (recipe) {
+                recipe.isCooked = !recipe.isCooked;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(recipes));
+                renderRecipes();
+                updateStats();
+                showToast(recipe.isCooked ? 'Marcado como Já Fiz! 🍳' : 'Marcado como Na Fila ⏳');
+            }
+        }
+
+        function toggleCookedStatusFromDetail() {
+            if (!activeDetailRecipeId) return;
+            toggleCookedStatus(activeDetailRecipeId);
+            openRecipeDetailModal(activeDetailRecipeId);
+        }
+
+        function exportRecipesJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recipes, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `caderno_receitas_${new Date().toISOString().split('T')[0]}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            showToast('Arquivo de backup exportado!');
+        }
+
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function openHermesGuideModal() {
+            openModal('hermesGuideModal');
+        }
+
+        function openTelegramModal() {
+            openModal('telegramModal');
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'bg-stone-900 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-xl border border-stone-700 pointer-events-auto flex items-center gap-2 transform transition-all duration-300 translate-y-2 opacity-0';
+            toast.innerHTML = `<span>🍲</span> <span>${escapeHtml(message)}</span>`;
+
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3200);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal('recipeDetailModal');
+                closeModal('hermesGuideModal');
+                closeModal('telegramModal');
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
