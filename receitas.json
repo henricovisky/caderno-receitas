@@ -1,85 +1,32 @@
 [
   {
-    "id": "rec_1",
-    "title": "Strogonoff Clássico com Cogumelos",
+    "id": "rec_tomatada_ovos_escalfados",
+    "title": "Tomatada com Ovos Escalfados",
     "category": "refeicao",
-    "prepTime": "30 min",
+    "prepTime": "45 min",
     "servings": "4 porções",
-    "sourceUrl": "https://whatsapp.com/sample",
+    "sourceUrl": "https://healthybites.pt/recipe/tomatada-com-ovos-escalfados/",
     "ingredients": [
-      "500g de filé mignon ou peito de frango em tiras",
-      "1 cebola média picadinha",
-      "2 dentes de alho amassados",
-      "200g de cogumelos paris fatiados",
-      "1 colher (sopa) de mostarda dijon",
-      "2 colheres (sopa) de ketchup",
-      "1 colher (sopa) de molho inglês",
-      "1 caixinha de creme de leite (200g)",
-      "Sal, pimenta-do-reino e azeite a gosto"
+      "8 dentes de alho laminados",
+      "2 kg de tomate coração de boi bem maduro (ou passata + 3 tomates)",
+      "1 cebola grande cortada em meias-luas",
+      "1 folha de louro",
+      "1 molho de coentros frescos picados",
+      "Azeite de oliva q.b.",
+      "Sal q.b.",
+      "8 ovos"
     ],
     "instructions": [
-      "Aqueça uma frigideira funda com azeite e doure as tiras de carne em fogo alto aos poucos para não juntar água.",
-      "Na mesma panela, refogue a cebola e o alho até ficarem translúcidos.",
-      "Adicione os cogumelos e refogue por 3 minutos.",
-      "Junte a mostarda, ketchup e molho inglês, misturando bem aos sucos do fundo.",
-      "Abaixe o fogo, acrescente o creme de leite, acerte o sal e a pimenta e desligue antes de ferver.",
-      "Sirva imediatamente com arroz branco e batata palha caseira."
-    ],
-    "isCooked": true,
-    "rating": 5,
-    "myNotes": "Fica sensacional finalizado com um pouquinho de conhaque flambado antes do molho!",
-    "createdAt": "2026-09-10"
-  },
-  {
-    "id": "rec_2",
-    "title": "Pão de Queijo de Frigideira Funcional",
-    "category": "lanche",
-    "prepTime": "10 min",
-    "servings": "1 porção",
-    "sourceUrl": "https://instagram.com/p/sample",
-    "ingredients": [
-      "1 ovo caipira",
-      "2 colheres (sopa) cheias de polvilho azedo ou doce",
-      "1 colher (sopa) de requeijão ou iogurte natural",
-      "2 colheres (sopa) de queijo parmesão ou meia cura ralado",
-      "1 pitada de sal e sementes de chia"
-    ],
-    "instructions": [
-      "Em uma tigelinha, bata bem o ovo com o garfo.",
-      "Adicione o polvilho, o requeijão, o queijo e a pitada de sal, misturando até ficar homogêneo.",
-      "Unte uma frigideira pequena com azeite ou manteiga e leve ao fogo baixo.",
-      "Despeje a massa, tampe e deixe firmar por cerca de 3 a 4 minutos até a base dourar.",
-      "Vire com uma espátula para dourar o outro lado por mais 2 minutos."
+      "Na caçarola, cubra o fundo com azeite e leve ao fogo.",
+      "Acrescente a cebola em meias-luas, o louro e o alho laminado; junte o tomate previamente pelado e picado.",
+      "Adicione parte dos coentros picados e tempere com sal.",
+      "Deixe cozinhar em fogo brando por cerca de 30 minutos até o tomate desmanchar e formar um molho rico.",
+      "Retifique o tempero e faça pequenas cavidades no molho para colocar os ovos abertos.",
+      "Deixe os ovos escalfarem até o ponto desejado (clara firme e gema mole), desligue o fogo e finalize com o restante dos coentros frescos."
     ],
     "isCooked": true,
     "rating": 4,
-    "myNotes": "Super rápido para o café da manhã. Fica crocante se dourar bem.",
-    "createdAt": "2026-09-15"
-  },
-  {
-    "id": "rec_3",
-    "title": "Mousse Cremoso de Maracujá 3 Ingredientes",
-    "category": "sobremesa",
-    "prepTime": "15 min (+ 3h geladeira)",
-    "servings": "6 porções",
-    "sourceUrl": "https://youtube.com/sample",
-    "ingredients": [
-      "1 lata de leite condensado (395g)",
-      "2 caixinhas de creme de leite (400g)",
-      "1 xícara de suco concentrado de maracujá (ou polpa coada)",
-      "Polpa de 1 maracujá fresco com sementes para decorar (opcional)"
-    ],
-    "instructions": [
-      "No liquidificador, adicione o leite condensado e as duas caixas de creme de leite.",
-      "Bata em velocidade média por 1 minuto.",
-      "Com o liquidificador ainda ligado, vá despejando o suco concentrado aos poucos.",
-      "Bata por mais 2 a 3 minutos até virar um creme bem espesso e aveludado.",
-      "Despeje em taças individuais ou refratário e leve à geladeira por pelo menos 3 horas.",
-      "Antes de servir, cubra com a polpa de sementes frescas para contraste azedinho."
-    ],
-    "isCooked": false,
-    "rating": 0,
-    "myNotes": "Guardei do link do WhatsApp para o almoço de domingo em família.",
-    "createdAt": "2026-09-20"
+    "myNotes": "Dica: trocar os 2 kg de tomate por uma passata e 3 tomates maduros.",
+    "createdAt": "2026-09-28"
   }
 ]
