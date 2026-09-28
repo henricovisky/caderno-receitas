@@ -1,5 +1,33 @@
 [
   {
+    "id": "rec_1790627878",
+    "title": "Bolinho de Banana com Aveia na Air Fryer",
+    "category": "lanche",
+    "prepTime": "20 min",
+    "servings": "8 unidades",
+    "sourceUrl": "https://www.receiteria.com.br/receita/bolinho-de-banana-com-aveia-na-air-fryer/",
+    "ingredients": [
+      "2 bananas bem maduras (reserve algumas rodelas para decorar)",
+      "2 ovos",
+      "3 colheres (sopa) de aveia em flocos",
+      "1 colher (chá) de canela em pó a gosto",
+      "1 colher (chá) de fermento em pó"
+    ],
+    "instructions": [
+      "Reúna os ingredientes e reserve algumas rodelas finas de banana para decorar o topo.",
+      "Em um prato fundo ou tigela, amasse bem as bananas com um garfo.",
+      "Em uma tigela à parte, bata ligeiramente os ovos. Incorpore a banana amassada e a aveia em flocos, misturando bem.",
+      "Adicione a canela em pó e o fermento químico, mexendo delicadamente até formar uma massa homogênea.",
+      "Distribua a massa em forminhas individuais de silicone e coloque uma rodela de banana no topo de cada uma.",
+      "Leve para assar na air fryer a 160 °C por 10 minutos, até ficarem dourados por fora e macios por dentro.",
+      "Retire com cuidado, espere amornar para desenformar e sirva!"
+    ],
+    "isCooked": false,
+    "rating": 0,
+    "myNotes": "Bolinho prático e saudável sem açúcar refinado para lanche rápido ou café da manhã.",
+    "createdAt": "2026-09-28"
+  },
+  {
     "id": "rec_tomatada_ovos_escalfados",
     "title": "Tomatada com Ovos Escalfados",
     "category": "refeicao",
