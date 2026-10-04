@@ -56,5 +56,37 @@
     "rating": 4,
     "myNotes": "Dica: trocar os 2 kg de tomate por uma passata e 3 tomates maduros.",
     "createdAt": "2026-09-28"
+  },
+  {
+    "id": "rec_carne_moida_legumes",
+    "title": "Carne Moída com Legumes",
+    "category": "refeicao",
+    "prepTime": "N/A",
+    "servings": "N/A",
+    "sourceUrl": "https://cookpad.com/br/receitas/2372531",
+    "ingredients": [
+      "500 gr Carne moída(paleta)",
+      "2 cenouras em cubinhos",
+      "1/2 cebola picadinha",
+      "3 dentes alho picadinho",
+      "3 tomates picados",
+      "Ervilhas frescas",
+      "1 brócolis com os raminhos soltos",
+      "1 lata milho",
+      "Orégano a gosto",
+      "Cominho a gosto",
+      "Folhas louro",
+      "Pimenta do reino e sal a gosto"
+    ],
+    "instructions": [
+      "Refogue a cebola e o alho.",
+      "Adicione a carne refogue um pouco, adicione o tomate a cenoura e os temperos tampe a panela e deixe cozinha por um tempo.",
+      "Adicione o brócolis, as ervilhas e o milho e cozinhe até o brócolis estiver al dente.",
+      "Sirva com arroz branco E voilà é só e deliciar."
+    ],
+    "isCooked": false,
+    "rating": 0,
+    "myNotes": "Receita de Carne Moída com Legumes do Cookpad.",
+    "createdAt": "2026-10-24"
   }
 ]
