@@ -1,5 +1,32 @@
 [
   {
+    "id": "rec_picanha_suina_airfryer",
+    "title": "Picanha Suína na Airfryer",
+    "category": "refeicao",
+    "prepTime": "40 min",
+    "servings": "4 porções",
+    "sourceUrl": "https://youtu.be/zmR5KBQLeh4",
+    "ingredients": [
+      "600 g de Picanha Suína",
+      "½ Xícara (de chá) de limão ou vinagre",
+      "Sal de Parrilla a gosto",
+      "Pimenta do reino a gosto",
+      "Manjericão fresco a gosto"
+    ],
+    "instructions": [
+      "Faça cortes na gordura da picanha (sem chegar na carne) formando um quadriculado.",
+      "Em um recipiente, misture o suco de limão, a pimenta do reino, o sal de parrilla e o manjericão fresco.",
+      "Coloque a picanha no tempero e deixe marinar por 15 minutos.",
+      "Coloque a picanha com a gordura para cima no cesto da airfryer, regue com um pouco do tempero e asse a 200°C por 25 minutos.",
+      "Vire a picanha, regue com mais tempero e deixe por mais 15 minutos na airfryer.",
+      "Retire e sirva!"
+    ],
+    "isCooked": true,
+    "rating": 5,
+    "myNotes": "Fiz essa receita e adicionei manjericão fresco. Ficou muito boa!",
+    "createdAt": "2026-10-25"
+  },
+  {
     "id": "rec_1790627878",
     "title": "Bolinho de Banana com Aveia na Air Fryer",
     "category": "lanche",
