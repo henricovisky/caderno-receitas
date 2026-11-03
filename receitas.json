@@ -1,5 +1,34 @@
 [
   {
+    "id": "rec_bruaca",
+    "title": "Bruaca",
+    "category": "lanche",
+    "prepTime": "10 min",
+    "servings": "8 porções",
+    "sourceUrl": "https://www.tudogostoso.com.br/receita/132002-bruaca.html",
+    "ingredients": [
+      "1 ovo inteiro",
+      "1 e ½ xícara (chá) de leite",
+      "1 colher (sopa) de margarina",
+      "8 colheres (sopa) de açúcar",
+      "1 pitada de sal",
+      "16 colheres (sopa) de farinha de trigo sem fermento",
+      "Óleo para fritar"
+    ],
+    "instructions": [
+      "Bata o ovo com o açúcar e a margarina.",
+      "Acrescente o leite e a farinha de trigo alternadamente até homogeneizar (consistência de massa de bolo, ligeiramente mais fluida).",
+      "Aqueça um fio de óleo em uma frigideira em fogo baixo.",
+      "Coloque cerca de meia concha de massa para dourar.",
+      "Vire quando a base estiver dourada para fritar o outro lado.",
+      "Retire, escorra o excesso de óleo e sirva morna acompanhada de café."
+    ],
+    "isCooked": false,
+    "rating": 0,
+    "myNotes": "Receita tradicional de Bruaca cearense/nordestina para o café. Ainda não testada.",
+    "createdAt": "2026-10-25"
+  },
+  {
     "id": "rec_picanha_suina_airfryer",
     "title": "Picanha Suína na Airfryer",
     "category": "refeicao",
